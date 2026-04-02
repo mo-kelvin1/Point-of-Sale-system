@@ -1,10 +1,16 @@
 # POS System
 
-A full Point of Sale system with a Node.js/Express/Prisma backend and a plain HTML/CSS/JS frontend.
+Two completely independent apps - run each in its own terminal.
 
-## Setup
+```
+pos-system/
+  backend/        - Node.js + Express + Prisma + PostgreSQL
+  pos-frontend/   - React + Vite
+```
 
-### Backend
+---
+
+## Terminal 1 - Backend
 
 ```bash
 cd backend
@@ -14,44 +20,37 @@ npm run seed
 npm run dev
 ```
 
-### Frontend
+Runs on: http://localhost:3000
 
-Open `frontend/index.html` in a browser, or serve it with any static file server:
+---
+
+## Terminal 2 - Frontend
 
 ```bash
-npx serve frontend
+cd pos-frontend
+npm install
+npm run dev
 ```
+
+Runs on: http://localhost:5173
+
+The frontend reads the backend URL from `pos-frontend/.env`:
+```
+VITE_API_URL=http://localhost:3000/api
+```
+Change that value if your backend runs on a different host or port.
+
+---
 
 ## Default Login Credentials
 
-| Role    | Username | Password    |
-|---------|----------|-------------|
-| Admin   | admin    | admin123    |
-| Manager | manager  | manager123  |
-| Cashier | cashier  | cashier123  |
+| Role    | Username | Password   |
+|---------|----------|------------|
+| Admin   | admin    | admin123   |
+| Manager | manager  | manager123 |
+| Cashier | cashier  | cashier123 |
 
-## Structure
+## Role Access
 
-```
-backend/
-  prisma/
-    schema.prisma     - Database schema
-    seed.js           - Sample data
-  src/
-    middleware/auth.js
-    routes/           - auth, products, inventory, sales, customers, reports, users
-    prisma/client.js
-    server.js
-  .env
-
-frontend/
-  css/style.css
-  js/
-    api.js            - Fetch wrapper
-    auth.js           - Login / logout / route guard
-    pos.js            - Cashier register
-    dashboard.js      - Admin/manager dashboard
-  index.html          - Login page
-  pos.html            - Cashier screen
-  dashboard.html      - Admin/manager dashboard
-```
+- Admin / Manager - Dashboard (products, inventory, customers, sales, reports, users)
+- Cashier - Register + Sales History (all sales and their own sales)
